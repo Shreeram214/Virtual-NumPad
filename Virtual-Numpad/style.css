@@ -1,0 +1,126 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.modal{
+    display: none;
+    position: fixed;
+    z-index: 10;
+    padding-top: 0.5%;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0 0 0/43%);
+}
+.modal-content{
+    background-color: white;
+    margin: auto;
+    position: relative;
+    top: 2%;
+    padding: 10px;
+    width: 35%;
+    border: 1px solid #888;
+    border-radius: 2%;
+}
+.containt{
+    position: relative;
+    display: flex;
+    margin: auto;
+}
+.keyboard{
+    font-size: 30px;
+    position: relative;
+    right: 3%;
+    cursor: pointer;
+}
+
+.pin-login{
+    display: inline-block;
+    border-radius: 0,5rem;
+    padding: 0.3rem;
+    font-size: 1.6rem;
+    background: #ffffff;
+    width: 100%;
+    user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    font-family: sans-serif;
+}
+.pin-login__key{
+    width: 32.33%;
+    height: 5.5rem;
+    margin: 0.1rem;
+    background: radial-gradient(rgb(65 131 317), black);
+    color: white;
+    border-radius: 10%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    border-color: aquamarine;
+}
+.pin-login__Cancel{
+    width: 32.33%;
+    height: 5.5rem;
+    margin: 0.1rem;
+    background:radial-gradient(rgb(255 65 65), #7c0000bf);
+    color: white;
+    border-radius: 10%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    border-color: #831b24;
+}
+.pin-login__ok{
+    width: 32.33%;
+    height: 5.5rem;
+    margin: 0.1rem;
+    background: radial-gradient(rgb(65 255 67), #000000bf);
+    color: white;
+    border-radius: 10%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+.pin-login__key:hover{
+    position: relative;
+    top: 1px;
+    right: 1px;
+}
+.pin-login__Cancel:hover{
+    position: relative;
+    top: 1px;
+    right: 1px;
+}
+.pin-login__ok:hover{
+    position: relative;
+    top: 1px;
+    right: 1px;
+}
+.pin-login__text{
+    height: 50px;
+    border-radius: 10px;
+    margin: 0.5rem auto 0.5rem auto;
+    padding: 0.3rem;
+    width: 96%;
+    font-size: 0.7em;
+    text-align: center;
+    letter-spacing: 0.2em;
+    border: 1px solid #0091f5;
+    outline: none;
+    cursor: default;
+}
+.pin-login__text--error{
+    color: #d91b2d;
+    animation-name: loginError;
+    animation-duration: 0.1s;
+    animation-iteration-count: 2;
+}

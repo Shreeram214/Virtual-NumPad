@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Numpad</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+    <section>
+        <div class="containt">
+            <input type="text" class="search" id="numbers" placeholder="Numbers">
+            <i class="fa fa-keyboard-o keyboard" id="mod" style="font-size:30px"></i>
+        </div>
+    </section>
+    <div class="modal" id="mymodal">
+        <div class="modal-content">
+            <div class="pin-login" id="mainnumpad">
+                <input type="text" id="numtext" class="pin-login__text">
+                <div class="pin-login__numpad">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var modal = document.getElementById('mymodal');
+    var btn = document.getElementById('mod');
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+    $('#mod').on('click', function () {
+        modal.style.display = 'block';
+    })
+
+    class Numpad {
+        constructor({ el, loginEndpoint, redirectTo, maxNumbers = Infinity }) {
+            this.el = {
+                main: el,
+                numPad: el.querySelector(".pin-login__numpad"),
+                textDisplay: el.querySelector(".pin-login__text")
+            };
+            this.loginEndpoint = loginEndpoint;
+            this.redirectTo = redirectTo;
+            this.maxNumbers = maxNumbers;
+            this.value = "";
+            this._generatePad();
+        }
+        _generatePad() {
+            const padLayout = [
+                "1", "2", "3",
+                "4", "5", "6",
+                "7", "8", "9",
+                "0", ".", "<=",
+                "Clear", "Ok", "Close"
+            ];
+            padLayout.forEach(key => {
+                const insertBreak = key.search(/[369<=]/) !== -1;
+                const keyEl = document.createElement("div");
+                if (key === "Ok") {
+                    keyEl.classList.add("pin-login__ok");
+                    keyEl.classList.toggle("material-icons", isNaN(key));
+                    // keyEl.innerHTML = `<span>&#10004;</span>`;
+                    keyEl.textContent = key;
+                }
+                else if (key === "Clear") {
+                    keyEl.classList.add("pin-login__Cancel");
+                    keyEl.classList.toggle("material-icons", isNaN(key));
+                    keyEl.textContent = key;
+                }
+                else if (key === "Close") {
+                    keyEl.classList.add("pin-login__Cancel");
+                    keyEl.classList.toggle("material-icons", isNaN(key));
+                    keyEl.textContent = key;
+                }
+                else {
+                    keyEl.classList.add("pin-login__key");
+                    keyEl.classList.toggle("material-icons", isNaN(key));
+                    if (key === "<=") {
+                        keyEl.innerHTML = `<span>&#9003</span>`;
+                    }
+                    else {
+                        keyEl.textContent = key;
+                    }
+                }
+                keyEl.addEventListener("click", () => { this.__handleKeyPress(key) });
+                this.el.numPad.appendChild(keyEl);
+                if (insertBreak) {
+                    this.el.numPad.appendChild(document.createElement("br"));
+                }
+
+            })
+
+        }
+        __handleKeyPress(key) {
+            switch (key) {
+                case "Clear":
+                    this.value = "";
+                    break;
+                case ".":
+                    this.value = this.value += key;
+                    break;
+                case "<=":
+                    this.value = this.value.substring(0, this.value.length - 1);
+                    break;
+                case "Ok":
+                    this._attemptLogin();
+                    break;
+                case "Close":
+                    this.value = "";
+                    modal.style.display = "none";
+                    break;
+                default:
+                    if (this.value.length < this.maxNumbers && !isNaN(key)) {
+                        this.value += key;
+                    }
+                    break;
+            }
+            this._updateValueText();
+        }
+        _updateValueText() {
+            this.el.textDisplay.value = this.value;
+            this.el.textDisplay.classList.remove("pin-login__text--error");
+        }
+        _attemptLogin() {
+            if (this.value.length > 0) {
+                modal.style.display = "none";
+                $("#numtext").val("");
+                document.getElementById("numbers").value = this.value;
+            }
+        }
+    }
+    new Numpad({
+        el: document.getElementById("mainnumpad"),
+    })
+
+
+</script>
+
+</html>
